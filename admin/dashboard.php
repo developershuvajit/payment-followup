@@ -87,7 +87,7 @@ if($collected_row = mysqli_fetch_assoc($collected_result)) {
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <h6 class="card-title">মোট বাকি রুপি</h6>
-                                <h2 class="mb-0">৳ <?php echo number_format($total_due, 2); ?></h2>
+                                <h2 class="mb-0">₹ <?php echo number_format($total_due, 2); ?></h2>
                             </div>
                             <i class="fas fa-rupee-sign fa-3x opacity-50"></i>
                         </div>
@@ -101,7 +101,7 @@ if($collected_row = mysqli_fetch_assoc($collected_result)) {
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <h6 class="card-title">মোট কালেক্ট করা রুপি</h6>
-                                <h2 class="mb-0">৳ <?php echo number_format($total_collected, 2); ?></h2>
+                                <h2 class="mb-0">₹ <?php echo number_format($total_collected, 2); ?></h2>
                             </div>
                             <i class="fas fa-hand-holding-usd fa-3x opacity-50"></i>
                         </div>
@@ -178,10 +178,10 @@ if($collected_row = mysqli_fetch_assoc($collected_result)) {
                                         echo "<td>{$row['email']}</td>";
                                         echo "<td>{$row['company_name']}</td>";
                                         echo "<td><span class='badge bg-success'>সক্রিয়</span></td>";
-                                        echo "</td>";
+                                        echo "</tr>";
                                     }
                                 } else {
-                                    echo "<tr><td colspan='5' class='text-center'>কোন ভেন্ডর নেই</td><tr>";
+                                    echo "<tr><td colspan='5' class='text-center'>কোন ভেন্ডর নেই</td></tr>";
                                 }
                                 ?>
                             </tbody>
