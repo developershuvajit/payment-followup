@@ -37,10 +37,12 @@ $current_page = basename($_SERVER['PHP_SELF']);
         </a>
     </div>
     
+    
+
     <div class="nav-item">
-        <a href="payment_history.php" class="<?php echo ($current_page == 'payment_history.php') ? 'active' : ''; ?>">
+        <a href="reminder.php" class="<?php echo ($current_page == 'reminder.php') ? 'active' : ''; ?>">
             <i class="fas fa-history"></i>
-            <span>পেমেন্ট হিস্টোরি</span>
+            <span>মেসেজ  রিমাইন্ডার</span>
         </a>
     </div>
     
