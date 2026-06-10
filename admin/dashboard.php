@@ -1,4 +1,4 @@
- <?php
+<?php
 // admin/dashboard.php
 require_once 'include/header.php';
 require_once 'include/sidebar.php';
@@ -24,14 +24,14 @@ if($customer_row = mysqli_fetch_assoc($customer_result)) {
     $total_customers = $customer_row['total'];
 }
 
-// মোট বাকি টাকা
+// মোট বাকি রুপি
 $due_query = "SELECT SUM(due_amount) as total_due FROM customers";
 $due_result = mysqli_query($conn, $due_query);
 if($due_row = mysqli_fetch_assoc($due_result)) {
     $total_due = $due_row['total_due'] ?? 0;
 }
 
-// মোট কালেক্ট করা টাকা
+// মোট কালেক্ট করা রুপি
 $collected_query = "SELECT SUM(paid_amount) as total_collected FROM payments";
 $collected_result = mysqli_query($conn, $collected_query);
 if($collected_row = mysqli_fetch_assoc($collected_result)) {
@@ -86,7 +86,7 @@ if($collected_row = mysqli_fetch_assoc($collected_result)) {
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h6 class="card-title">মোট বাকি টাকা</h6>
+                                <h6 class="card-title">মোট বাকি রুপি</h6>
                                 <h2 class="mb-0">৳ <?php echo number_format($total_due, 2); ?></h2>
                             </div>
                             <i class="fas fa-rupee-sign fa-3x opacity-50"></i>
@@ -100,7 +100,7 @@ if($collected_row = mysqli_fetch_assoc($collected_result)) {
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h6 class="card-title">মোট কালেক্ট করা</h6>
+                                <h6 class="card-title">মোট কালেক্ট করা রুপি</h6>
                                 <h2 class="mb-0">৳ <?php echo number_format($total_collected, 2); ?></h2>
                             </div>
                             <i class="fas fa-hand-holding-usd fa-3x opacity-50"></i>
@@ -134,7 +134,7 @@ if($collected_row = mysqli_fetch_assoc($collected_result)) {
                                             $due_customers = $due_cust_row['total'];
                                         }
                                         echo $due_customers; 
-                                    ?></strong> জন কাস্টমারের ৳ বাকি
+                                    ?></strong> জন কাস্টমারের রুপি বাকি
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -178,10 +178,10 @@ if($collected_row = mysqli_fetch_assoc($collected_result)) {
                                         echo "<td>{$row['email']}</td>";
                                         echo "<td>{$row['company_name']}</td>";
                                         echo "<td><span class='badge bg-success'>সক্রিয়</span></td>";
-                                        echo "</tr>";
+                                        echo "</td>";
                                     }
                                 } else {
-                                    echo "<td><td colspan='5' class='text-center'>কোন ভেন্ডর নেই</td></tr>";
+                                    echo "<tr><td colspan='5' class='text-center'>কোন ভেন্ডর নেই</td><tr>";
                                 }
                                 ?>
                             </tbody>
