@@ -8,7 +8,7 @@ $vendor_id = $_SESSION['vendor_id'];
 $message = "";
 $error = "";
 
-// Session মেসেজ
+// Session message
 if(isset($_SESSION['message'])) {
     $message = $_SESSION['message'];
     unset($_SESSION['message']);
@@ -18,21 +18,21 @@ if(isset($_SESSION['error'])) {
     unset($_SESSION['error']);
 }
 
-// সেভ করা টেমপ্লেট বের করা
+// Get saved templates
 $template_query = "SELECT * FROM whatsapp_templates WHERE vendor_id = '$vendor_id' OR vendor_id = 0 ORDER BY id DESC";
 $template_result = mysqli_query($conn, $template_query);
 
-// ডিফল্ট টেমপ্লেট
-$default_template = "প্রিয় {party_name},
+// Default template
+$default_template = "Dear {party_name},
 
-আপনার ₹ {due_amount} টাকা বিল বাকি আছে।
-বিল তারিখ: {bill_date}
-মোট বিল: ₹ {amount}
+Your due amount of ₹ {due_amount} is pending.
+Bill Date: {bill_date}
+Total Bill: ₹ {amount}
 
-দয়া করে দ্রুত পেমেন্ট করুন।
-ধন্যবাদ।";
+Please make the payment soon.
+Thank you.";
 
-// ফিল্টার
+// Filter
 $filter_status = isset($_GET['status']) ? $_GET['status'] : '';
 $filter_telecall = isset($_GET['telecall']) ? $_GET['telecall'] : '';
 
@@ -44,7 +44,7 @@ if($filter_telecall == '1') {
     $where .= " AND telecalling_assign = 1";
 }
 
-// কাস্টমার লিস্ট
+// Customer list
 $customers_query = "SELECT * FROM customers WHERE $where ORDER BY due_amount DESC";
 $customers_result = mysqli_query($conn, $customers_query);
 $total_customers = mysqli_num_rows($customers_result);
@@ -53,11 +53,11 @@ $total_customers = mysqli_num_rows($customers_result);
 <div class="content">
     <div class="topbar">
         <div class="page-title">
-            <h4><i class="fab fa-whatsapp"></i> WhatsApp রিমাইন্ডার</h4>
+            <h4><i class="fab fa-whatsapp"></i> WhatsApp Reminder</h4>
         </div>
         <div class="user-info">
             <span><i class="fas fa-user"></i> <?php echo $_SESSION['user_name']; ?></span>
-            <a href="../logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> লগআউট</a>
+            <a href="../logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </div>
     
@@ -75,26 +75,26 @@ $total_customers = mysqli_num_rows($customers_result);
         <?php endif; ?>
         
         <div class="row">
-            <!-- বাম পাশ: কাস্টমার লিস্ট -->
+            <!-- Left Side: Customer List -->
             <div class="col-md-5">
                 <div class="card" style="border-radius: 15px;">
                     <div class="card-header bg-primary text-white">
-                        <h5 class="mb-0"><i class="fas fa-users"></i> কাস্টমার লিস্ট (যাদের বাকি আছে)</h5>
+                        <h5 class="mb-0"><i class="fas fa-users"></i> Customer List (With Due)</h5>
                     </div>
                     <div class="card-body">
-                        <!-- ফিল্টার -->
+                        <!-- Filter -->
                         <div class="row mb-3">
                             <div class="col-6">
                                 <select id="statusFilter" class="form-select form-select-sm">
-                                    <option value="">সব স্ট্যাটাস</option>
-                                    <option value="unpaid" <?php echo $filter_status == 'unpaid' ? 'selected' : ''; ?>>বাকি</option>
-                                    <option value="partial" <?php echo $filter_status == 'partial' ? 'selected' : ''; ?>>আংশিক</option>
+                                    <option value="">All Status</option>
+                                    <option value="unpaid" <?php echo $filter_status == 'unpaid' ? 'selected' : ''; ?>>Due</option>
+                                    <option value="partial" <?php echo $filter_status == 'partial' ? 'selected' : ''; ?>>Partial</option>
                                 </select>
                             </div>
                             <div class="col-6">
                                 <select id="telecallFilter" class="form-select form-select-sm">
-                                    <option value="">সব</option>
-                                    <option value="1" <?php echo $filter_telecall == '1' ? 'selected' : ''; ?>>টেলিকলিং অ্যাসাইন</option>
+                                    <option value="">All</option>
+                                    <option value="1" <?php echo $filter_telecall == '1' ? 'selected' : ''; ?>>Telecalling Assigned</option>
                                 </select>
                             </div>
                         </div>
@@ -103,9 +103,9 @@ $total_customers = mysqli_num_rows($customers_result);
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <input type="checkbox" id="selectAll" class="form-check-input">
-                                    <label for="selectAll" class="form-check-label ms-2">সব সিলেক্ট করুন (<?php echo $total_customers; ?> জন)</label>
+                                    <label for="selectAll" class="form-check-label ms-2">Select All (<?php echo $total_customers; ?> customers)</label>
                                 </div>
-                                <span class="badge bg-info">সিলেক্টেড: <span id="selectedCount">0</span></span>
+                                <span class="badge bg-info">Selected: <span id="selectedCount">0</span></span>
                             </div>
                         </div>
                         
@@ -115,9 +115,9 @@ $total_customers = mysqli_num_rows($customers_result);
                                     <thead>
                                         <tr>
                                             <th width="30">#</th>
-                                            <th>পার্টি নাম</th>
-                                            <th>বাকি (₹)</th>
-                                            <th>হোয়াটসঅ্যাপ</th>
+                                            <th>Party Name</th>
+                                            <th>Due (₹)</th>
+                                            <th>WhatsApp</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -139,7 +139,7 @@ $total_customers = mysqli_num_rows($customers_result);
                                                 </tr>
                                             <?php endwhile; ?>
                                         <?php else: ?>
-                                            <tr><td colspan="4" class="text-center">কোন কাস্টমার নেই যাদের টাকা বাকি</td></tr>
+                                            <tr><td colspan="4" class="text-center">No customers with due amount found</td></tr>
                                         <?php endif; ?>
                                     </tbody>
                                 </table>
@@ -149,18 +149,18 @@ $total_customers = mysqli_num_rows($customers_result);
                 </div>
             </div>
             
-            <!-- ডান পাশ: মেসেজ টেমপ্লেট -->
+            <!-- Right Side: Message Template -->
             <div class="col-md-7">
                 <div class="card" style="border-radius: 15px;">
                     <div class="card-header bg-success text-white">
-                        <h5 class="mb-0"><i class="fas fa-edit"></i> মেসেজ টেমপ্লেট</h5>
+                        <h5 class="mb-0"><i class="fas fa-edit"></i> Message Template</h5>
                     </div>
                     <div class="card-body">
-                        <!-- টেমপ্লেট সিলেক্ট -->
+                        <!-- Template Select -->
                         <div class="mb-3">
-                            <label class="form-label">সেভ করা টেমপ্লেট</label>
+                            <label class="form-label">Saved Templates</label>
                             <select id="templateSelect" class="form-select">
-                                <option value="">-- ডিফল্ট টেমপ্লেট --</option>
+                                <option value="">-- Default Template --</option>
                                 <?php while($template = mysqli_fetch_assoc($template_result)): ?>
                                     <option value="<?php echo htmlspecialchars($template['template_content']); ?>">
                                         <?php echo htmlspecialchars($template['template_name']); ?>
@@ -169,49 +169,49 @@ $total_customers = mysqli_num_rows($customers_result);
                             </select>
                         </div>
                         
-                        <!-- মেসেজ এডিটর -->
+                        <!-- Message Editor -->
                         <div class="mb-3">
-                            <label class="form-label">মেসেজ লিখুন <span class="text-danger">*</span></label>
+                            <label class="form-label">Write Message <span class="text-danger">*</span></label>
                             <textarea id="messageContent" name="message_content" class="form-control" rows="10" required><?php echo htmlspecialchars($default_template); ?></textarea>
                             <small class="text-muted">
-                                <strong>ভেরিয়েবল ব্যবহার করুন:</strong><br>
-                                {party_name} - কাস্টমারের নাম<br>
-                                {due_amount} - বাকি টাকা<br>
-                                {amount} - মোট বিল<br>
-                                {bill_date} - বিলের তারিখ<br>
-                                {whatsapp} - হোয়াটসঅ্যাপ নম্বর
+                                <strong>Use Variables:</strong><br>
+                                {party_name} - Customer Name<br>
+                                {due_amount} - Due Amount<br>
+                                {amount} - Total Bill<br>
+                                {bill_date} - Bill Date<br>
+                                {whatsapp} - WhatsApp Number
                             </small>
                         </div>
                         
-                        <!-- প্রিভিউ -->
+                        <!-- Preview -->
                         <div class="mb-3">
-                            <label class="form-label">প্রিভিউ</label>
+                            <label class="form-label">Preview</label>
                             <div id="previewBox" class="alert alert-info" style="min-height: 150px; white-space: pre-line;">
-                                টেমপ্লেট সিলেক্ট করুন অথবা মেসেজ লিখুন
+                                Select a template or write a message
                             </div>
                         </div>
                         
-                        <!-- টেমপ্লেট সেভ -->
+                        <!-- Save Template -->
                         <div class="row mb-3">
                             <div class="col-8">
-                                <input type="text" id="templateName" class="form-control" placeholder="টেমপ্লেটের নাম (যেমন: দৈনিক রিমাইন্ডার)">
+                                <input type="text" id="templateName" class="form-control" placeholder="Template Name (e.g., Daily Reminder)">
                             </div>
                             <div class="col-4">
                                 <button type="button" id="saveTemplateBtn" class="btn btn-secondary w-100">
-                                    <i class="fas fa-save"></i> টেমপ্লেট সেভ
+                                    <i class="fas fa-save"></i> Save Template
                                 </button>
                             </div>
                         </div>
                         
                         <hr>
                         
-                        <!-- সাবমিট বাটন -->
+                        <!-- Submit Buttons -->
                         <div class="d-flex gap-2">
                             <button type="button" id="previewBtn" class="btn btn-info">
-                                <i class="fas fa-eye"></i> প্রিভিউ
+                                <i class="fas fa-eye"></i> Preview
                             </button>
                             <button type="button" id="sendSelectedBtn" class="btn btn-primary flex-grow-1">
-                                <i class="fab fa-whatsapp"></i> সিলেক্টেড কাস্টমারদের পাঠান
+                                <i class="fab fa-whatsapp"></i> Send to Selected Customers
                             </button>
                         </div>
                         
@@ -224,37 +224,37 @@ $total_customers = mysqli_num_rows($customers_result);
 </div>
 
 <script>
-// সিলেক্ট অল ফাংশন
+// Select All Function
 const selectAll = document.getElementById('selectAll');
 const checkboxes = document.querySelectorAll('.customer-checkbox');
 const selectedCountSpan = document.getElementById('selectedCount');
 const messageContent = document.getElementById('messageContent');
 const previewBox = document.getElementById('previewBox');
 
-// আপডেট সিলেক্টেড কাউন্ট
+// Update selected count
 function updateSelectedCount() {
     const checked = document.querySelectorAll('.customer-checkbox:checked');
     selectedCountSpan.textContent = checked.length;
     return checked;
 }
 
-// সিলেক্ট অল
+// Select All
 selectAll?.addEventListener('change', function() {
     checkboxes.forEach(cb => cb.checked = this.checked);
     updateSelectedCount();
 });
 
-// ইন্ডিভিজুয়াল চেকবক্স
+// Individual checkbox
 checkboxes.forEach(cb => {
     cb.addEventListener('change', function() {
         updateSelectedCount();
-        // সব চেকবক্স চেক করা থাকলে সিলেক্ট অল চেক করানো
+        // Check select all if all checkboxes are checked
         const allChecked = document.querySelectorAll('.customer-checkbox:checked').length === checkboxes.length;
         if(selectAll) selectAll.checked = allChecked;
     });
 });
 
-// প্রিভিউ ফাংশন
+// Preview function
 function generatePreview() {
     let message = messageContent.value;
     const firstChecked = document.querySelector('.customer-checkbox:checked');
@@ -269,16 +269,16 @@ function generatePreview() {
         previewBox.innerHTML = preview.replace(/\n/g, '<br>');
     } else {
         let preview = message;
-        preview = preview.replace(/{party_name}/g, '[কাস্টমারের নাম]');
-        preview = preview.replace(/{due_amount}/g, '[বাকি টাকা]');
-        preview = preview.replace(/{amount}/g, '[মোট বিল]');
-        preview = preview.replace(/{bill_date}/g, '[বিলের তারিখ]');
-        preview = preview.replace(/{whatsapp}/g, '[নম্বর]');
+        preview = preview.replace(/{party_name}/g, '[Customer Name]');
+        preview = preview.replace(/{due_amount}/g, '[Due Amount]');
+        preview = preview.replace(/{amount}/g, '[Total Bill]');
+        preview = preview.replace(/{bill_date}/g, '[Bill Date]');
+        preview = preview.replace(/{whatsapp}/g, '[Number]');
         previewBox.innerHTML = preview.replace(/\n/g, '<br>');
     }
 }
 
-// টেমপ্লেট সিলেক্ট
+// Template select
 document.getElementById('templateSelect')?.addEventListener('change', function() {
     if(this.value) {
         messageContent.value = this.value;
@@ -286,19 +286,19 @@ document.getElementById('templateSelect')?.addEventListener('change', function()
     }
 });
 
-// প্রিভিউ বাটন
+// Preview button
 document.getElementById('previewBtn')?.addEventListener('click', generatePreview);
 
-// মেসেজ টাইপ করার সময় প্রিভিউ আপডেট
+// Update preview when typing
 messageContent.addEventListener('input', generatePreview);
 
-// টেমপ্লেট সেভ
+// Save template
 document.getElementById('saveTemplateBtn')?.addEventListener('click', function() {
     const templateName = document.getElementById('templateName').value;
     const templateContent = messageContent.value;
     
     if(!templateName) {
-        alert('দয়া করে টেমপ্লেটের নাম দিন!');
+        alert('Please enter a template name!');
         return;
     }
     
@@ -312,10 +312,10 @@ document.getElementById('saveTemplateBtn')?.addEventListener('click', function()
     .then(response => response.json())
     .then(data => {
         if(data.success) {
-            alert('টেমপ্লেট সেভ করা হয়েছে!');
+            alert('Template saved successfully!');
             location.reload();
         } else {
-            alert('টেমপ্লেট সেভ করতে ব্যর্থ: ' + data.error);
+            alert('Failed to save template: ' + data.error);
         }
     })
     .catch(error => {
@@ -323,31 +323,31 @@ document.getElementById('saveTemplateBtn')?.addEventListener('click', function()
     });
 });
 
-// সিলেক্টেড কাস্টমারদের পাঠানো
+// Send to selected customers
 document.getElementById('sendSelectedBtn')?.addEventListener('click', function() {
     const selected = document.querySelectorAll('.customer-checkbox:checked');
     
     if(selected.length === 0) {
-        alert('দয়া করে কমপক্ষে একজন কাস্টমার সিলেক্ট করুন!');
+        alert('Please select at least one customer!');
         return;
     }
     
     if(!messageContent.value.trim()) {
-        alert('দয়া করে একটি মেসেজ লিখুন!');
+        alert('Please write a message!');
         return;
     }
     
-    if(confirm(`আপনি কি ${selected.length} জন কাস্টমারকে WhatsApp reminder পাঠাতে চান?`)) {
+    if(confirm(`Are you sure you want to send WhatsApp reminder to ${selected.length} customer(s)?`)) {
         const form = document.getElementById('reminderForm');
         form.submit();
     }
 });
 
-// পৃষ্ঠা লোড হলে প্রিভিউ জেনারেট
+// Generate preview on page load
 generatePreview();
 updateSelectedCount();
 
-// ফিল্টার functionality
+// Filter functionality
 document.getElementById('statusFilter')?.addEventListener('change', function() {
     window.location.href = 'reminder.php?status=' + this.value + '&telecall=' + document.getElementById('telecallFilter').value;
 });
