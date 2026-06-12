@@ -12,44 +12,42 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <div class="nav-item">
         <a href="dashboard.php" class="<?php echo ($current_page == 'dashboard.php') ? 'active' : ''; ?>">
             <i class="fas fa-tachometer-alt"></i>
-            <span>ড্যাশবোর্ড</span>
+            <span>Dashboard</span>
         </a>
     </div>
     
     <div class="nav-item">
         <a href="customers.php" class="<?php echo ($current_page == 'customers.php') ? 'active' : ''; ?>">
             <i class="fas fa-users"></i>
-            <span>কাস্টমার লিস্ট</span>
+            <span>Customer List</span>
         </a>
     </div>
     
     <div class="nav-item">
         <a href="add_customer.php" class="<?php echo ($current_page == 'add_customer.php') ? 'active' : ''; ?>">
             <i class="fas fa-user-plus"></i>
-            <span>নতুন কাস্টমার</span>
+            <span>Add New Customer</span>
         </a>
     </div>
     
     <div class="nav-item">
         <a href="import_customers.php" class="<?php echo ($current_page == 'import_customers.php') ? 'active' : ''; ?>">
             <i class="fas fa-file-import"></i>
-            <span>CSV ইম্পোর্ট</span>
+            <span>CSV Import</span>
         </a>
     </div>
     
-    
-
     <div class="nav-item">
         <a href="reminder.php" class="<?php echo ($current_page == 'reminder.php') ? 'active' : ''; ?>">
             <i class="fas fa-history"></i>
-            <span>মেসেজ  রিমাইন্ডার</span>
+            <span>Message Reminder</span>
         </a>
     </div>
     
     <div class="nav-item">
         <a href="../logout.php">
             <i class="fas fa-sign-out-alt"></i>
-            <span>লগআউট</span>
+            <span>Logout</span>
         </a>
     </div>
 </div>

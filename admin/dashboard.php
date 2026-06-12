@@ -4,34 +4,34 @@ require_once 'include/header.php';
 require_once 'include/sidebar.php';
 require_once '../config/database.php';
 
-// বিভিন্ন কাউন্ট বের করা
+// Get various counts
 $total_vendors = 0;
 $total_customers = 0;
 $total_due = 0;
 $total_collected = 0;
 
-// মোট ভেন্ডর কাউন্ট
+// Total vendor count
 $vendor_query = "SELECT COUNT(*) as total FROM vendors WHERE user_type = 'vendor'";
 $vendor_result = mysqli_query($conn, $vendor_query);
 if($vendor_row = mysqli_fetch_assoc($vendor_result)) {
     $total_vendors = $vendor_row['total'];
 }
 
-// মোট কাস্টমার কাউন্ট
+// Total customer count
 $customer_query = "SELECT COUNT(*) as total FROM customers";
 $customer_result = mysqli_query($conn, $customer_query);
 if($customer_row = mysqli_fetch_assoc($customer_result)) {
     $total_customers = $customer_row['total'];
 }
 
-// মোট বাকি রুপি
+// Total due amount
 $due_query = "SELECT SUM(due_amount) as total_due FROM customers";
 $due_result = mysqli_query($conn, $due_query);
 if($due_row = mysqli_fetch_assoc($due_result)) {
     $total_due = $due_row['total_due'] ?? 0;
 }
 
-// মোট কালেক্ট করা রুপি
+// Total collected amount
 $collected_query = "SELECT SUM(paid_amount) as total_collected FROM payments";
 $collected_result = mysqli_query($conn, $collected_query);
 if($collected_row = mysqli_fetch_assoc($collected_result)) {
@@ -42,23 +42,23 @@ if($collected_row = mysqli_fetch_assoc($collected_result)) {
 <div class="content">
     <div class="topbar">
         <div class="page-title">
-            <h4><i class="fas fa-tachometer-alt"></i> ড্যাশবোর্ড</h4>
+            <h4><i class="fas fa-tachometer-alt"></i> Dashboard</h4>
         </div>
         <div class="user-info">
             <span><i class="fas fa-user-shield"></i> <?php echo $_SESSION['user_name']; ?></span>
-            <a href="../logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> লগআউট</a>
+            <a href="../logout.php" class="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </div>
     
     <div class="main-content">
-        <!-- স্ট্যাটিস্টিক্স কার্ড -->
+        <!-- Statistics Cards -->
         <div class="row">
             <div class="col-md-3 mb-4">
                 <div class="card text-white bg-primary" style="border-radius: 10px;">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h6 class="card-title">মোট ভেন্ডর</h6>
+                                <h6 class="card-title">Total Vendors</h6>
                                 <h2 class="mb-0"><?php echo $total_vendors; ?></h2>
                             </div>
                             <i class="fas fa-store fa-3x opacity-50"></i>
@@ -72,7 +72,7 @@ if($collected_row = mysqli_fetch_assoc($collected_result)) {
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h6 class="card-title">মোট কাস্টমার</h6>
+                                <h6 class="card-title">Total Customers</h6>
                                 <h2 class="mb-0"><?php echo $total_customers; ?></h2>
                             </div>
                             <i class="fas fa-users fa-3x opacity-50"></i>
@@ -86,7 +86,7 @@ if($collected_row = mysqli_fetch_assoc($collected_result)) {
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h6 class="card-title">মোট বাকি রুপি</h6>
+                                <h6 class="card-title">Total Due Amount</h6>
                                 <h2 class="mb-0">₹ <?php echo number_format($total_due, 2); ?></h2>
                             </div>
                             <i class="fas fa-rupee-sign fa-3x opacity-50"></i>
@@ -100,7 +100,7 @@ if($collected_row = mysqli_fetch_assoc($collected_result)) {
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <h6 class="card-title">মোট কালেক্ট করা রুপি</h6>
+                                <h6 class="card-title">Total Collected Amount</h6>
                                 <h2 class="mb-0">₹ <?php echo number_format($total_collected, 2); ?></h2>
                             </div>
                             <i class="fas fa-hand-holding-usd fa-3x opacity-50"></i>
@@ -110,18 +110,18 @@ if($collected_row = mysqli_fetch_assoc($collected_result)) {
             </div>
         </div>
         
-        <!-- ওয়েলকাম মেসেজ -->
+        <!-- Welcome Message -->
         <div class="row mt-3">
             <div class="col-12">
                 <div class="card" style="border-radius: 10px;">
                     <div class="card-body">
-                        <h5><i class="fas fa-waveform"></i> সুপার অ্যাডমিন প্যানেলে স্বাগতম!</h5>
-                        <p class="text-muted">আপনি এখানে সব ভেন্ডর, কাস্টমার এবং পেমেন্ট মনিটর করতে পারবেন।</p>
+                        <h5><i class="fas fa-waveform"></i> Welcome to Super Admin Panel!</h5>
+                        <p class="text-muted">You can monitor all vendors, customers, and payments here.</p>
                         <hr>
                         <div class="row mt-3">
                             <div class="col-md-4">
                                 <div class="alert alert-success">
-                                    <i class="fas fa-check-circle"></i> <strong><?php echo $total_vendors; ?></strong> জন ভেন্ডর সক্রিয়
+                                    <i class="fas fa-check-circle"></i> <strong><?php echo $total_vendors; ?></strong> Active Vendors
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -134,12 +134,12 @@ if($collected_row = mysqli_fetch_assoc($collected_result)) {
                                             $due_customers = $due_cust_row['total'];
                                         }
                                         echo $due_customers; 
-                                    ?></strong> জন কাস্টমারের রুপি বাকি
+                                    ?></strong> Customers have due payments
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="alert alert-info">
-                                    <i class="fas fa-whatsapp"></i> WhatsApp রিমাইন্ডার সক্রিয়
+                                    <i class="fas fa-whatsapp"></i> WhatsApp Reminder Active
                                 </div>
                             </div>
                         </div>
@@ -148,22 +148,22 @@ if($collected_row = mysqli_fetch_assoc($collected_result)) {
             </div>
         </div>
         
-        <!-- সাম্প্রতিক ভেন্ডর লিস্ট -->
+        <!-- Recent Vendors List -->
         <div class="row mt-4">
             <div class="col-12">
                 <div class="card" style="border-radius: 10px;">
                     <div class="card-header bg-white">
-                        <h5 class="mb-0"><i class="fas fa-store"></i> সাম্প্রতিক যোগ হওয়া ভেন্ডর</h5>
+                        <h5 class="mb-0"><i class="fas fa-store"></i> Recently Added Vendors</h5>
                     </div>
                     <div class="card-body">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>নাম</th>
-                                    <th>ইমেইল</th>
-                                    <th>কোম্পানি</th>
-                                    <th>স্ট্যাটাস</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Company</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -177,11 +177,11 @@ if($collected_row = mysqli_fetch_assoc($collected_result)) {
                                         echo "<td>{$row['name']}</td>";
                                         echo "<td>{$row['email']}</td>";
                                         echo "<td>{$row['company_name']}</td>";
-                                        echo "<td><span class='badge bg-success'>সক্রিয়</span></td>";
+                                        echo "<td><span class='badge bg-success'>Active</span></td>";
                                         echo "</tr>";
                                     }
                                 } else {
-                                    echo "<tr><td colspan='5' class='text-center'>কোন ভেন্ডর নেই</td></tr>";
+                                    echo "<tr><td colspan='5' class='text-center'>No vendors found</td></tr>";
                                 }
                                 ?>
                             </tbody>

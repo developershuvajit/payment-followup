@@ -4,7 +4,7 @@ session_start();
 
 require_once 'config/database.php';
 
-// যদি লগইন করে থাকে তাহলে রিডাইরেক্ট
+// Redirect if already logged in
 if(isset($_SESSION['user_id'])) {
     if($_SESSION['user_type'] == 'super_admin') {
         header("Location: admin/dashboard.php");
@@ -15,7 +15,7 @@ if(isset($_SESSION['user_id'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -114,24 +114,26 @@ if(isset($_SESSION['user_id'])) {
             <div class="logo">
                 💰📱
             </div>
+
             <h1>Payment Follow-up System</h1>
             <div class="subtitle">Smart Payment Reminder Solution</div>
-            
-            <a href="login.php" class="btn">🔐 লগইন করুন</a>
-            
+
+            <a href="login.php" class="btn">🔐 Login</a>
+
             <div class="features">
-                <h3>সিস্টেম ফিচারসমূহ:</h3>
+                <h3>System Features:</h3>
                 <ul>
-                    <li>ভেন্ডর ম্যানেজমেন্ট</li>
-                    <li>কাস্টমার ডাটা এন্ট্রি</li>
-                    <li>CSV/Excel ইম্পোর্ট</li>
-                    <li>অটোমেটিক WhatsApp রিমাইন্ডার</li>
-                    <li>পেমেন্ট কালেকশন ট্র্যাকিং</li>
-                    <li>ডিউ রিপোর্ট</li>
+                    <li>Vendor Management</li>
+                    <li>Customer Data Entry</li>
+                    <li>CSV/Excel Import</li>
+                    <li>Automatic WhatsApp Reminders</li>
+                    <li>Payment Collection Tracking</li>
+                    <li>Due Reports</li>
                 </ul>
             </div>
+
             <div class="footer">
-                © 2024 Payment Follow-up System
+                © 2026 Payment Follow-up System. All Rights Reserved.
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 <?php
 // admin/include/sidebar.php
-// সক্রিয় মেনু চিহ্নিত করার জন্য
+// Identify active menu item
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
 
@@ -9,27 +9,25 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <h3>💰 Payment System</h3>
         <p>Super Admin Panel</p>
     </div>
-    
+
     <div class="nav-item">
         <a href="dashboard.php" class="<?php echo ($current_page == 'dashboard.php') ? 'active' : ''; ?>">
             <i class="fas fa-tachometer-alt"></i>
-            <span>ড্যাশবোর্ড</span>
+            <span>Dashboard</span>
         </a>
     </div>
-    
+
     <div class="nav-item">
         <a href="vendors.php" class="<?php echo ($current_page == 'vendors.php') ? 'active' : ''; ?>">
             <i class="fas fa-store"></i>
-            <span>ভেন্ডর ম্যানেজমেন্ট</span>
+            <span>Vendor Management</span>
         </a>
     </div>
-    
-    
-    
+
     <div class="nav-item">
         <a href="../logout.php">
             <i class="fas fa-sign-out-alt"></i>
-            <span>লগআউট</span>
+            <span>Logout</span>
         </a>
     </div>
 </div>
